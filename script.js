@@ -2,6 +2,8 @@ let minutes = 0;
 let seconds = 0;
 
 let timer = null;
+let totalSeconds = 0;
+let progressBar = document.getElementById("progress-bar");
 
 let display = document.getElementById("timer");
 
@@ -52,6 +54,7 @@ function startTimer() {
         }
 
         displayTimer();
+        updateProgress();
 
     }, 1000);
 }
@@ -70,8 +73,23 @@ function resetTimer() {
 
     minutes = 0;
     seconds = 0;
+    totalSeconds = 0;
 
     displayTimer();
+    updateProgress();
+}
+ function updateProgress() {
+
+    if (totalSeconds === 0) {
+        progressBar.style.width = "0%";
+        return;
+    }
+
+    let remainingSeconds = minutes * 60 + seconds;
+
+    let percentage = (remainingSeconds / totalSeconds) * 100;
+
+    progressBar.style.width = percentage + "%";
 }
 
 
@@ -88,8 +106,12 @@ function setTimer() {
     minutes = value;
     seconds = 0;
 
+    totalSeconds = minutes * 60;
+
     displayTimer();
+    updateProgress();
 }
+
 
 
 playButton.addEventListener("click", function() {
@@ -110,3 +132,4 @@ setButton.addEventListener("click", function() {
 
 
 displayTimer();
+updateProgress();
